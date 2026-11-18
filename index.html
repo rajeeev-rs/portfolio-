@@ -58,9 +58,7 @@ nav{max-width:1160px;margin:0 auto;padding:18px 32px;display:flex;align-items:ce
 .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px -8px rgba(94,234,212,.6)}
 .btn-outline{border:1px solid var(--line);color:var(--text)}
 .btn-outline:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-3px)}
-button.btn{border:none;cursor:pointer}
-button.btn.btn-outline{border:1px solid var(--line);background:transparent}
-.btn:focus-visible,.nav-links a:focus-visible,.email-line a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.btn:focus-visible,.nav-links a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .avatar-wrap{display:flex;align-items:center;justify-content:center;position:relative;height:340px}
 .ripple-ring{position:absolute;border-radius:50%;border:1px solid var(--cyan);opacity:0;animation:ripple 3s ease-out infinite}
 .ripple-ring:nth-child(1){width:160px;height:160px;animation-delay:0s}
@@ -142,12 +140,6 @@ button.btn.btn-outline{border:1px solid var(--line);background:transparent}
 .contact-section h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:18px}
 .contact-section p.sub{color:var(--muted);max-width:480px;margin:0 auto 36px;line-height:1.7}
 .contact-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
-.email-line{font-family:var(--font-mono);font-size:.9rem;color:var(--muted);margin-top:28px}
-.email-line a{color:var(--cyan);border-bottom:1px solid transparent;transition:border-color .25s ease}
-.email-line a:hover{border-color:var(--cyan)}
-.email-copy{background:none;border:none;border-bottom:1px dashed var(--cyan);color:var(--cyan);font:inherit;cursor:pointer;padding:0 0 2px}
-.email-copy:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
-.copy-hint{color:var(--muted);font-size:.78rem}
 footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-family:var(--font-mono);font-size:.78rem;color:var(--muted);position:relative;z-index:1}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.skill-fill{width:var(--target)}}
 </style>
@@ -281,12 +273,10 @@ footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-fa
   <h2>Let's build something.</h2>
   <p class="sub">Open to fresher Java Full Stack roles in Bengaluru, remote, or pan-India. Available to join immediately.</p>
   <div class="contact-links">
-    <button type="button" class="btn btn-primary" id="copyEmail">Copy Email</button>
-    <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=rajeevrs7654@gmail.com&amp;su=Java%20Full%20Stack%20Developer%20opportunity" class="btn btn-outline" target="_blank" rel="noopener">Open in Gmail</a>
+    <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=rajeevrs7654@gmail.com&amp;su=Java%20Full%20Stack%20Developer%20opportunity" class="btn btn-primary" target="_blank" rel="noopener">Gmail</a>
     <a href="https://www.linkedin.com/in/rajeev-r-183611219" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://github.com/rajeeev-rs" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
   </div>
-  <p class="email-line"><button type="button" class="email-copy" id="emailText" title="Click to copy">rajeevrs7654@gmail.com</button><span class="copy-hint" id="copyHint"> (click to copy)</span></p>
 </div></div></section>
 
 <footer>© 2026 Rajeev R — Built with HTML, CSS &amp; vanilla JS.</footer>
@@ -339,26 +329,6 @@ footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-fa
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
   var skillIo=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting){document.querySelectorAll('.skill-fill').forEach(function(f,i){setTimeout(function(){f.classList.add('filled')},i*90)});skillIo.unobserve(en.target)}})},{threshold:.3});
   skillIo.observe(document.getElementById('skills'));
-
-  // Copy email: works even when no default mail app is set up
-  var EMAIL='rajeevrs7654@gmail.com';
-  function copyEmail(onDone){
-    function fallback(){
-      var t=document.createElement('textarea');t.value=EMAIL;t.setAttribute('readonly','');t.style.position='fixed';t.style.top='0';t.style.opacity='0';
-      document.body.appendChild(t);t.select();t.setSelectionRange(0,EMAIL.length);
-      var ok=false;try{ok=document.execCommand('copy')}catch(e){}
-      document.body.removeChild(t);
-      if(ok){onDone(true)}else{window.prompt('Copy this email address:',EMAIL);onDone(false)}
-    }
-    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(EMAIL).then(function(){onDone(true)},fallback)}else{fallback()}
-  }
-  var copyBtn=document.getElementById('copyEmail'),emailText=document.getElementById('emailText'),hint=document.getElementById('copyHint');
-  copyBtn.addEventListener('click',function(){
-    copyEmail(function(ok){if(ok){copyBtn.textContent='Copied ✓';setTimeout(function(){copyBtn.textContent='Copy Email'},2000)}});
-  });
-  emailText.addEventListener('click',function(){
-    copyEmail(function(ok){if(ok){hint.textContent=' ✓ copied';setTimeout(function(){hint.textContent=' (click to copy)'},2000)}});
-  });
 })();
 </script>
 </body>
