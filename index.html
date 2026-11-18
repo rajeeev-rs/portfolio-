@@ -145,6 +145,9 @@ button.btn.btn-outline{border:1px solid var(--line);background:transparent}
 .email-line{font-family:var(--font-mono);font-size:.9rem;color:var(--muted);margin-top:28px}
 .email-line a{color:var(--cyan);border-bottom:1px solid transparent;transition:border-color .25s ease}
 .email-line a:hover{border-color:var(--cyan)}
+.email-copy{background:none;border:none;border-bottom:1px dashed var(--cyan);color:var(--cyan);font:inherit;cursor:pointer;padding:0 0 2px}
+.email-copy:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.copy-hint{color:var(--muted);font-size:.78rem}
 footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-family:var(--font-mono);font-size:.78rem;color:var(--muted);position:relative;z-index:1}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.skill-fill{width:var(--target)}}
 </style>
@@ -283,7 +286,7 @@ footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-fa
     <a href="https://www.linkedin.com/in/rajeev-r-183611219" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://github.com/rajeeev-rs" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
   </div>
-  <p class="email-line"><a href="mailto:rajeevrs7654@gmail.com">rajeevrs7654@gmail.com</a></p>
+  <p class="email-line"><button type="button" class="email-copy" id="emailText" title="Click to copy">rajeevrs7654@gmail.com</button><span class="copy-hint" id="copyHint"> (click to copy)</span></p>
 </div></div></section>
 
 <footer>© 2026 Rajeev R — Built with HTML, CSS &amp; vanilla JS.</footer>
@@ -338,12 +341,23 @@ footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-fa
   skillIo.observe(document.getElementById('skills'));
 
   // Copy email: works even when no default mail app is set up
-  var copyBtn=document.getElementById('copyEmail');
+  var EMAIL='rajeevrs7654@gmail.com';
+  function copyEmail(onDone){
+    function fallback(){
+      var t=document.createElement('textarea');t.value=EMAIL;t.setAttribute('readonly','');t.style.position='fixed';t.style.top='0';t.style.opacity='0';
+      document.body.appendChild(t);t.select();t.setSelectionRange(0,EMAIL.length);
+      var ok=false;try{ok=document.execCommand('copy')}catch(e){}
+      document.body.removeChild(t);
+      if(ok){onDone(true)}else{window.prompt('Copy this email address:',EMAIL);onDone(false)}
+    }
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(EMAIL).then(function(){onDone(true)},fallback)}else{fallback()}
+  }
+  var copyBtn=document.getElementById('copyEmail'),emailText=document.getElementById('emailText'),hint=document.getElementById('copyHint');
   copyBtn.addEventListener('click',function(){
-    var email='rajeevrs7654@gmail.com',label='Copy Email';
-    function done(){copyBtn.textContent='Copied ✓';setTimeout(function(){copyBtn.textContent=label},2000)}
-    function fallback(){var t=document.createElement('textarea');t.value=email;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();try{document.execCommand('copy');done()}catch(e){copyBtn.textContent=email}document.body.removeChild(t)}
-    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(email).then(done,fallback)}else{fallback()}
+    copyEmail(function(ok){if(ok){copyBtn.textContent='Copied ✓';setTimeout(function(){copyBtn.textContent='Copy Email'},2000)}});
+  });
+  emailText.addEventListener('click',function(){
+    copyEmail(function(ok){if(ok){hint.textContent=' ✓ copied';setTimeout(function(){hint.textContent=' (click to copy)'},2000)}});
   });
 })();
 </script>
