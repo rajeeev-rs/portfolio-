@@ -33,7 +33,7 @@ h1,h2,h3{font-family:var(--font-display);font-weight:600;line-height:1.1}
 .cursor-ring{width:34px;height:34px;border:1px solid rgba(94,234,212,.5);transition:width .2s ease,height .2s ease,border-color .2s ease,background .2s ease}
 .cursor-ring.active{width:54px;height:54px;border-color:var(--violet);background:rgba(167,139,250,.08)}
 @media (max-width:900px){.cursor-dot,.cursor-ring{display:none}}
-#particle-canvas{position:fixed;inset:0;z-index:0;opacity:.55}
+#particle-canvas{position:fixed;inset:0;z-index:0;opacity:.55;pointer-events:none}
 header{position:fixed;top:0;left:0;right:0;z-index:100;backdrop-filter:blur(10px);background:rgba(10,14,20,.6);border-bottom:1px solid var(--line)}
 nav{max-width:1160px;margin:0 auto;padding:18px 32px;display:flex;align-items:center;justify-content:space-between}
 .logo{font-family:var(--font-mono);font-size:1rem;letter-spacing:.05em}
@@ -58,6 +58,9 @@ nav{max-width:1160px;margin:0 auto;padding:18px 32px;display:flex;align-items:ce
 .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px -8px rgba(94,234,212,.6)}
 .btn-outline{border:1px solid var(--line);color:var(--text)}
 .btn-outline:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-3px)}
+button.btn{border:none;cursor:pointer}
+button.btn.btn-outline{border:1px solid var(--line);background:transparent}
+.btn:focus-visible,.nav-links a:focus-visible,.email-line a:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
 .avatar-wrap{display:flex;align-items:center;justify-content:center;position:relative;height:340px}
 .ripple-ring{position:absolute;border-radius:50%;border:1px solid var(--cyan);opacity:0;animation:ripple 3s ease-out infinite}
 .ripple-ring:nth-child(1){width:160px;height:160px;animation-delay:0s}
@@ -139,6 +142,9 @@ nav{max-width:1160px;margin:0 auto;padding:18px 32px;display:flex;align-items:ce
 .contact-section h2{font-size:clamp(2rem,4vw,3rem);margin-bottom:18px}
 .contact-section p.sub{color:var(--muted);max-width:480px;margin:0 auto 36px;line-height:1.7}
 .contact-links{display:flex;gap:18px;justify-content:center;flex-wrap:wrap}
+.email-line{font-family:var(--font-mono);font-size:.9rem;color:var(--muted);margin-top:28px}
+.email-line a{color:var(--cyan);border-bottom:1px solid transparent;transition:border-color .25s ease}
+.email-line a:hover{border-color:var(--cyan)}
 footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-family:var(--font-mono);font-size:.78rem;color:var(--muted);position:relative;z-index:1}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}.skill-fill{width:var(--target)}}
 </style>
@@ -217,16 +223,16 @@ footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-fa
       <h3>Oorderflow — Order Management System</h3>
       <div class="feat-cols">
         <div>
-          <p>A multi-user order management system. Staff sign in, create and track orders, and an AI assistant answers questions about the orders they are allowed to see. Built as a development starter, with a hardening checklist (email verification, rate limiting, audit logging, tests, migrations) before any public deployment.</p>
+          <p>A multi-user order management system. Staff sign in, create and track orders, and an order assistant answers questions about the orders they are allowed to see. Built as a development starter, with a hardening checklist (email verification, rate limiting, audit logging, tests, migrations) before any public deployment.</p>
           <div class="project-stack"><span>Java 21</span><span>Spring Boot</span><span>React</span><span>Vite</span><span>MySQL 8</span><span>JWT</span><span>Maven</span></div>
-          <div class="project-meta"><span class="dot"></span>Personal project — <a href="https://github.com/rajeev-rs/order-management-system" target="_blank" rel="noopener">GitHub</a></div>
+          <div class="project-meta"><span class="dot"></span>Personal project — <a href="https://github.com/rajeeev-rs/order-management-system" target="_blank" rel="noopener">GitHub</a></div>
         </div>
         <ul class="feat-list">
           <li><b>Secure auth.</b> Signup/login with BCrypt password hashing and JWT bearer tokens.</li>
           <li><b>Role-based access.</b> First account becomes ADMIN, later accounts are EMPLOYEE.</li>
           <li><b>Scoped data.</b> Employees see only orders they created; admins see all.</li>
           <li><b>Orders API.</b> Create, list, update and delete, with delete restricted to admins.</li>
-          <li><b>Dashboard and AI assistant.</b> Responsive UI; the assistant sends only the signed-in user's visible orders to Anthropic.</li>
+          <li><b>Dashboard and order assistant.</b> Responsive UI; a rule-based assistant answers questions about order counts, sales totals and customer orders from live data, limited to what the signed-in user can see.</li>
         </ul>
       </div>
     </div>
@@ -250,7 +256,7 @@ footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-fa
       <h3>JobTrack</h3>
       <p>A Java full stack job application and career tracking platform — lets a job seeker manage their entire search: company and application tracking through a status pipeline (Applied → Screening → Interview → Offer → Rejected), with more features like interview notes, follow-up reminders, and a stats dashboard planned.</p>
       <div class="project-stack"><span>Spring Boot</span><span>MySQL</span><span>REST APIs</span><span>React</span></div>
-      <div class="project-meta"><span class="dot"></span>Personal project — <a href="https://github.com/rajeev-rs/JobTrack" target="_blank" rel="noopener">GitHub</a></div>
+      <div class="project-meta"><span class="dot"></span>Personal project — <a href="https://github.com/rajeeev-rs/JobTrack" target="_blank" rel="noopener">GitHub</a></div>
     </div>
   </div>
 </div></section>
@@ -272,10 +278,12 @@ footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-fa
   <h2>Let's build something.</h2>
   <p class="sub">Open to fresher Java Full Stack roles in Bengaluru, remote, or pan-India. Available to join immediately.</p>
   <div class="contact-links">
-    <a href="mailto:rajeevrs7654@gmail.com" class="btn btn-primary">Email Me</a>
+    <button type="button" class="btn btn-primary" id="copyEmail">Copy Email</button>
+    <a href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=rajeevrs7654@gmail.com&amp;su=Java%20Full%20Stack%20Developer%20opportunity" class="btn btn-outline" target="_blank" rel="noopener">Open in Gmail</a>
     <a href="https://www.linkedin.com/in/rajeev-r-183611219" class="btn btn-outline" target="_blank" rel="noopener">LinkedIn</a>
     <a href="https://github.com/rajeeev-rs" class="btn btn-outline" target="_blank" rel="noopener">GitHub</a>
   </div>
+  <p class="email-line"><a href="mailto:rajeevrs7654@gmail.com">rajeevrs7654@gmail.com</a></p>
 </div></div></section>
 
 <footer>© 2026 Rajeev R — Built with HTML, CSS &amp; vanilla JS.</footer>
@@ -328,6 +336,15 @@ footer{padding:36px 0;text-align:center;border-top:1px solid var(--line);font-fa
   document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
   var skillIo=new IntersectionObserver(function(entries){entries.forEach(function(en){if(en.isIntersecting){document.querySelectorAll('.skill-fill').forEach(function(f,i){setTimeout(function(){f.classList.add('filled')},i*90)});skillIo.unobserve(en.target)}})},{threshold:.3});
   skillIo.observe(document.getElementById('skills'));
+
+  // Copy email: works even when no default mail app is set up
+  var copyBtn=document.getElementById('copyEmail');
+  copyBtn.addEventListener('click',function(){
+    var email='rajeevrs7654@gmail.com',label='Copy Email';
+    function done(){copyBtn.textContent='Copied ✓';setTimeout(function(){copyBtn.textContent=label},2000)}
+    function fallback(){var t=document.createElement('textarea');t.value=email;t.style.position='fixed';t.style.opacity='0';document.body.appendChild(t);t.select();try{document.execCommand('copy');done()}catch(e){copyBtn.textContent=email}document.body.removeChild(t)}
+    if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(email).then(done,fallback)}else{fallback()}
+  });
 })();
 </script>
 </body>
